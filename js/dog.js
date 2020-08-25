@@ -1,3 +1,5 @@
+var hourCounter;
+
 function preload(){
     bedRoom = loadImage("images/Bed Room.png");
     livingRoom = loadImage("images/Living Room.png");
@@ -15,6 +17,7 @@ class Dog {
         this.body.addImage("dog", this.image);
         this.body.addImage("happyDog", this.happyImage);
         this.body.scale = 0.2;
+        this.lastFed = 0;
     }
 
     getState(){
@@ -31,7 +34,7 @@ class Dog {
     }
 
     display() {
-        var hourCounter = hour();
+        hourCounter = hour();
 
         if (this.state === "hungry") {
             text("Feed Your Dog, IT'S HUNGRY!", 100, 440);
@@ -69,27 +72,27 @@ class Dog {
             background(46, 139, 87);
         }
 
-        if(hourCounter === (food.fedHour + 1) || (hourCounter > 20 && hourCounter < 7)){
-            this.state = "inGarden";
-            this.updateState(this.state);
-        }
-
-        else if(hourCounter === (food.fedHour + 2) || (hourCounter > 7 && hourCounter < 8)){
-            this.state = "inWashroom";
-            this.updateState(this.state);
-        }
-
-        else if(hourCounter === (food.fedHour + 3 )){
+        if(hourCounter === (this.lastFed + 3) || (hourCounter > 20 && hourCounter < 7)){
             this.state = "sleeping";
             this.updateState(this.state);
         }
 
-        else if(hourCounter === (food.fedHour + 4)){
+        else if(hourCounter === (this.lastFed + 2) || (hourCounter > 7 && hourCounter < 8)){
+            this.state = "inWashroom";
+            this.updateState(this.state);
+        }
+
+        else if(hourCounter === (this.lastFed + 1 )){
+            this.state = "inGarden";
+            this.updateState(this.state);
+        }
+
+        else if(hourCounter === (this.lastFed + 4)){
             this.state = "inLivingRoom";
             this.updateState(this.state);
         }
 
-        else if(hourCounter > food.fedHour + 4){
+        else if(hourCounter > this.lastFed + 4){
             this.state = "hungry";
             this.updateState(this.state)
         }

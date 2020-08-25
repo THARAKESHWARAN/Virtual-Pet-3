@@ -96,6 +96,7 @@ function buttons() {
 function hours(){ 
   var hor = hour();
   var min = minute();
+  dog.lastFed = hor;
   if(hor > 12){
     hor = hor - 12;
   }
